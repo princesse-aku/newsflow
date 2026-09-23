@@ -29,10 +29,10 @@ class AuthGate extends ConsumerWidget {
         );
       },
       error: (error, stackTrace) {
-        final title =
-            l10n?.authenticationError ?? 'Authentication error';
+        final title = l10n?.authenticationError ?? 'Authentication error';
 
-        final message = l10n?.authenticationCheckFailed ??
+        final message =
+            l10n?.authenticationCheckFailed ??
             'Unable to check authentication status.';
 
         final retryLabel = l10n?.retry ?? 'Retry';
@@ -46,10 +46,7 @@ class AuthGate extends ConsumerWidget {
                 children: [
                   Semantics(
                     label: title,
-                    child: const Icon(
-                      Icons.error_outline,
-                      size: 56,
-                    ),
+                    child: const Icon(Icons.error_outline, size: 56),
                   ),
                   const SizedBox(height: 16),
                   Text(
@@ -61,10 +58,7 @@ class AuthGate extends ConsumerWidget {
                     ),
                   ),
                   const SizedBox(height: 8),
-                  Text(
-                    message,
-                    textAlign: TextAlign.center,
-                  ),
+                  Text(message, textAlign: TextAlign.center),
                   const SizedBox(height: 20),
                   Semantics(
                     button: true,

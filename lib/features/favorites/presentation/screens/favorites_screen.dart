@@ -18,11 +18,7 @@ class FavoritesScreen extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(l10n.favorites),
-        actions: [
-          _ClearFavoritesButton(
-            visible: favorites.isNotEmpty,
-          ),
-        ],
+        actions: [_ClearFavoritesButton(visible: favorites.isNotEmpty)],
       ),
       body: favorites.isEmpty
           ? const _EmptyFavorites()
@@ -33,9 +29,7 @@ class FavoritesScreen extends ConsumerWidget {
                 return const SizedBox(height: 12);
               },
               itemBuilder: (context, index) {
-                return _FavoriteArticleCard(
-                  article: favorites[index],
-                );
+                return _FavoriteArticleCard(article: favorites[index]);
               },
             ),
     );
@@ -43,9 +37,7 @@ class FavoritesScreen extends ConsumerWidget {
 }
 
 class _ClearFavoritesButton extends ConsumerWidget {
-  const _ClearFavoritesButton({
-    required this.visible,
-  });
+  const _ClearFavoritesButton({required this.visible});
 
   final bool visible;
 
@@ -70,10 +62,7 @@ class _ClearFavoritesButton extends ConsumerWidget {
     );
   }
 
-  void _showClearConfirmation(
-    BuildContext context,
-    WidgetRef ref,
-  ) {
+  void _showClearConfirmation(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context)!;
 
     showDialog<void>(
@@ -93,9 +82,7 @@ class _ClearFavoritesButton extends ConsumerWidget {
               onPressed: () async {
                 Navigator.of(dialogContext).pop();
 
-                await ref
-                    .read(favoritesProvider.notifier)
-                    .clearFavorites();
+                await ref.read(favoritesProvider.notifier).clearFavorites();
               },
               child: Text(l10n.delete),
             ),
@@ -119,23 +106,14 @@ class _EmptyFavorites extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Icon(
-              Icons.star_border,
-              size: 64,
-            ),
+            const Icon(Icons.star_border, size: 64),
             const SizedBox(height: 16),
             Text(
               l10n.noFavorites,
-              style: const TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-              ),
+              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 8),
-            Text(
-              l10n.addFavoritesToFindThemHere,
-              textAlign: TextAlign.center,
-            ),
+            Text(l10n.addFavoritesToFindThemHere, textAlign: TextAlign.center),
           ],
         ),
       ),
@@ -144,9 +122,7 @@ class _EmptyFavorites extends StatelessWidget {
 }
 
 class _FavoriteArticleCard extends ConsumerWidget {
-  const _FavoriteArticleCard({
-    required this.article,
-  });
+  const _FavoriteArticleCard({required this.article});
 
   final Article article;
 
@@ -164,9 +140,7 @@ class _FavoriteArticleCard extends ConsumerWidget {
           onTap: () {
             Navigator.of(context).push(
               MaterialPageRoute(
-                builder: (_) => ArticleDetailScreen(
-                  article: article,
-                ),
+                builder: (_) => ArticleDetailScreen(article: article),
               ),
             );
           },
@@ -185,8 +159,7 @@ class _FavoriteArticleCard extends ConsumerWidget {
                       borderRadius: 8,
                     ),
                   ),
-                if (article.imageUrl.isNotEmpty)
-                  const SizedBox(width: 12),
+                if (article.imageUrl.isNotEmpty) const SizedBox(width: 12),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -194,33 +167,23 @@ class _FavoriteArticleCard extends ConsumerWidget {
                       if (article.sourceName.isNotEmpty)
                         Text(
                           article.sourceName,
-                          style: Theme.of(context)
-                              .textTheme
-                              .labelSmall
-                              ?.copyWith(
-                                fontWeight: FontWeight.bold,
-                              ),
+                          style: Theme.of(context).textTheme.labelSmall
+                              ?.copyWith(fontWeight: FontWeight.bold),
                         ),
                       const SizedBox(height: 6),
                       Text(
                         article.title,
                         maxLines: 3,
                         overflow: TextOverflow.ellipsis,
-                        style: Theme.of(context)
-                            .textTheme
-                            .titleSmall
-                            ?.copyWith(
-                              fontWeight: FontWeight.bold,
-                            ),
+                        style: Theme.of(context).textTheme.titleSmall
+                            ?.copyWith(fontWeight: FontWeight.bold),
                       ),
                     ],
                   ),
                 ),
                 Semantics(
                   button: true,
-                  label: l10n.removeFavoriteArticle(
-                    article.title,
-                  ),
+                  label: l10n.removeFavoriteArticle(article.title),
                   child: IconButton(
                     onPressed: () async {
                       await ref
@@ -228,9 +191,7 @@ class _FavoriteArticleCard extends ConsumerWidget {
                           .removeFavorite(article);
                     },
                     tooltip: l10n.removeFromFavorites,
-                    icon: const Icon(
-                      Icons.star,
-                    ),
+                    icon: const Icon(Icons.star),
                   ),
                 ),
               ],

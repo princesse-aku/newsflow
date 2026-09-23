@@ -17,18 +17,12 @@ class FavoritesLocalDataSource {
 
     return cachedData
         .whereType<Map>()
-        .map(
-          (article) => CachedArticleModel.fromMap(article),
-        )
+        .map((article) => CachedArticleModel.fromMap(article))
         .toList();
   }
 
-  Future<void> saveFavorites(
-    List<CachedArticleModel> articles,
-  ) async {
-    final articlesData = articles
-        .map((article) => article.toMap())
-        .toList();
+  Future<void> saveFavorites(List<CachedArticleModel> articles) async {
+    final articlesData = articles.map((article) => article.toMap()).toList();
 
     await _box.put(favoritesKey, articlesData);
   }

@@ -1,5 +1,6 @@
 // ignore: unused_import
 import 'package:intl/intl.dart' as intl;
+
 import 'app_localizations.dart';
 
 // ignore_for_file: type=lint
@@ -192,7 +193,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get noFavorites => 'No favorites';
 
   @override
-  String get addFavoritesToFindThemHere => 'Add articles to your favorites to find them here.';
+  String get addFavoritesToFindThemHere =>
+      'Add articles to your favorites to find them here.';
 
   @override
   String favoriteArticle(Object title) {
@@ -208,7 +210,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get clearFavoritesTitle => 'Delete favorites?';
 
   @override
-  String get clearFavoritesMessage => 'All your favorite articles will be deleted.';
+  String get clearFavoritesMessage =>
+      'All your favorite articles will be deleted.';
 
   @override
   String get cancel => 'Cancel';

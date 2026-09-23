@@ -21,9 +21,7 @@ class HomeScreen extends ConsumerWidget {
       appBar: AppBar(
         title: Text(
           l10n.appTitle,
-          style: const TextStyle(
-            fontWeight: FontWeight.bold,
-          ),
+          style: const TextStyle(fontWeight: FontWeight.bold),
         ),
         centerTitle: false,
         actions: [
@@ -33,11 +31,9 @@ class HomeScreen extends ConsumerWidget {
             hint: l10n.searchNewsHint,
             child: IconButton(
               onPressed: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (_) => const SearchScreen(),
-                  ),
-                );
+                Navigator.of(
+                  context,
+                ).push(MaterialPageRoute(builder: (_) => const SearchScreen()));
               },
               tooltip: l10n.search,
               icon: const Icon(Icons.search),
@@ -63,10 +59,7 @@ class HomeScreen extends ConsumerWidget {
                 children: [
                   Semantics(
                     label: l10n.loadingError,
-                    child: const Icon(
-                      Icons.error_outline,
-                      size: 56,
-                    ),
+                    child: const Icon(Icons.error_outline, size: 56),
                   ),
                   const SizedBox(height: 16),
                   Text(
@@ -78,10 +71,7 @@ class HomeScreen extends ConsumerWidget {
                     ),
                   ),
                   const SizedBox(height: 8),
-                  Text(
-                    l10n.checkConnection,
-                    textAlign: TextAlign.center,
-                  ),
+                  Text(l10n.checkConnection, textAlign: TextAlign.center),
                   const SizedBox(height: 20),
                   Semantics(
                     button: true,
@@ -101,17 +91,11 @@ class HomeScreen extends ConsumerWidget {
         },
         data: (articles) {
           if (articles.isEmpty) {
-            return Center(
-              child: Text(
-                l10n.noNewsAvailable,
-              ),
-            );
+            return Center(child: Text(l10n.noNewsAvailable));
           }
 
           return RefreshIndicator(
-            onRefresh: () => ref.refresh(
-              topHeadlinesProvider.future,
-            ),
+            onRefresh: () => ref.refresh(topHeadlinesProvider.future),
             child: ListView.separated(
               padding: const EdgeInsets.all(16),
               itemCount: articles.length,
@@ -131,9 +115,8 @@ class HomeScreen extends ConsumerWidget {
                       onTap: () {
                         Navigator.of(context).push(
                           MaterialPageRoute(
-                            builder: (_) => ArticleDetailScreen(
-                              article: article,
-                            ),
+                            builder: (_) =>
+                                ArticleDetailScreen(article: article),
                           ),
                         );
                       },
@@ -155,8 +138,7 @@ class HomeScreen extends ConsumerWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Row(
-                                  crossAxisAlignment:
-                                      CrossAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Expanded(
                                       child: Column(
@@ -170,8 +152,7 @@ class HomeScreen extends ConsumerWidget {
                                                   .textTheme
                                                   .labelMedium
                                                   ?.copyWith(
-                                                    fontWeight:
-                                                        FontWeight.bold,
+                                                    fontWeight: FontWeight.bold,
                                                   ),
                                             ),
                                           const SizedBox(height: 8),
@@ -181,8 +162,7 @@ class HomeScreen extends ConsumerWidget {
                                                 .textTheme
                                                 .titleMedium
                                                 ?.copyWith(
-                                                  fontWeight:
-                                                      FontWeight.bold,
+                                                  fontWeight: FontWeight.bold,
                                                 ),
                                           ),
                                         ],
@@ -190,9 +170,7 @@ class HomeScreen extends ConsumerWidget {
                                     ),
 
                                     // Seul ce widget écoute favoritesProvider.
-                                    _FavoriteButton(
-                                      article: article,
-                                    ),
+                                    _FavoriteButton(article: article),
                                   ],
                                 ),
                                 if (article.description.isNotEmpty) ...[
@@ -205,8 +183,7 @@ class HomeScreen extends ConsumerWidget {
                                 ],
                                 const SizedBox(height: 12),
                                 Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.end,
+                                  mainAxisAlignment: MainAxisAlignment.end,
                                   children: [
                                     Text(
                                       l10n.readArticle,
@@ -218,10 +195,7 @@ class HomeScreen extends ConsumerWidget {
                                           ),
                                     ),
                                     const SizedBox(width: 4),
-                                    const Icon(
-                                      Icons.arrow_forward,
-                                      size: 18,
-                                    ),
+                                    const Icon(Icons.arrow_forward, size: 18),
                                   ],
                                 ),
                               ],
@@ -242,9 +216,7 @@ class HomeScreen extends ConsumerWidget {
 }
 
 class _FavoriteButton extends ConsumerWidget {
-  const _FavoriteButton({
-    required this.article,
-  });
+  const _FavoriteButton({required this.article});
 
   final Article article;
 
@@ -254,9 +226,7 @@ class _FavoriteButton extends ConsumerWidget {
 
     final isFavorite = ref.watch(
       favoritesProvider.select(
-        (favorites) => favorites.any(
-          (favorite) => favorite.url == article.url,
-        ),
+        (favorites) => favorites.any((favorite) => favorite.url == article.url),
       ),
     );
 
@@ -267,9 +237,7 @@ class _FavoriteButton extends ConsumerWidget {
           : '${l10n.addToFavorites} : ${article.title}',
       child: IconButton(
         onPressed: () async {
-          await ref
-              .read(favoritesProvider.notifier)
-              .toggleFavorite(article);
+          await ref.read(favoritesProvider.notifier).toggleFavorite(article);
 
           if (!context.mounted) {
             return;
@@ -278,19 +246,13 @@ class _FavoriteButton extends ConsumerWidget {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text(
-                isFavorite
-                    ? l10n.removedFromFavorites
-                    : l10n.addedToFavorites,
+                isFavorite ? l10n.removedFromFavorites : l10n.addedToFavorites,
               ),
             ),
           );
         },
-        tooltip: isFavorite
-            ? l10n.removeFromFavorites
-            : l10n.addToFavorites,
-        icon: Icon(
-          isFavorite ? Icons.star : Icons.star_border,
-        ),
+        tooltip: isFavorite ? l10n.removeFromFavorites : l10n.addToFavorites,
+        icon: Icon(isFavorite ? Icons.star : Icons.star_border),
       ),
     );
   }

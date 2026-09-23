@@ -29,16 +29,13 @@ class OptimizedNetworkImage extends StatelessWidget {
       height: height,
       fit: fit,
       memCacheWidth: (width * MediaQuery.devicePixelRatioOf(context)).round(),
-      memCacheHeight:
-          (height * MediaQuery.devicePixelRatioOf(context)).round(),
+      memCacheHeight: (height * MediaQuery.devicePixelRatioOf(context)).round(),
       placeholder: (context, url) {
         return const Center(
           child: SizedBox(
             width: 24,
             height: 24,
-            child: CircularProgressIndicator(
-              strokeWidth: 2,
-            ),
+            child: CircularProgressIndicator(strokeWidth: 2),
           ),
         );
       },
@@ -61,11 +58,7 @@ class OptimizedNetworkImage extends StatelessWidget {
     return SizedBox(
       width: width,
       height: height,
-      child: const Center(
-        child: Icon(
-          Icons.image_not_supported_outlined,
-        ),
-      ),
+      child: const Center(child: Icon(Icons.image_not_supported_outlined)),
     );
   }
 }

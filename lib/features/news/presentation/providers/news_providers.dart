@@ -11,9 +11,7 @@ final dioClientProvider = Provider<DioClient>((ref) {
 });
 
 final newsRemoteDataSourceProvider = Provider<NewsRemoteDataSource>((ref) {
-  return NewsRemoteDataSource(
-    dioClient: ref.watch(dioClientProvider),
-  );
+  return NewsRemoteDataSource(dioClient: ref.watch(dioClientProvider));
 });
 
 final newsRepositoryProvider = Provider<NewsRepository>((ref) {

@@ -10,10 +10,7 @@ import 'package:newsflow/features/news/presentation/screens/home_screen.dart';
 import 'package:newsflow/l10n/app_localizations.dart';
 
 class FakeNewsRepository implements NewsRepository {
-  FakeNewsRepository({
-    this.articles = const [],
-    this.error,
-  });
+  FakeNewsRepository({this.articles = const [], this.error});
 
   final List<Article> articles;
   final Object? error;
@@ -56,17 +53,13 @@ void main() {
     content: 'Contenu de test.',
   );
 
-  Widget createWidget({
-    FakeNewsRepository? repository,
-  }) {
+  Widget createWidget({FakeNewsRepository? repository}) {
     return ProviderScope(
       overrides: [
         newsRepositoryProvider.overrideWithValue(
           repository ?? FakeNewsRepository(),
         ),
-        favoritesProvider.overrideWith(
-          FakeFavoritesNotifier.new,
-        ),
+        favoritesProvider.overrideWith(FakeFavoritesNotifier.new),
       ],
       child: const MaterialApp(
         localizationsDelegates: [
@@ -83,116 +76,70 @@ void main() {
   }
 
   group('HomeScreen', () {
-    testWidgets(
-      'affiche un indicateur de chargement',
-      (tester) async {
-        final repository = FakeNewsRepository(
-          articles: const [article],
-        );
+    testWidgets('affiche un indicateur de chargement', (tester) async {
+      final repository = FakeNewsRepository(articles: const [article]);
 
-        await tester.pumpWidget(
-          createWidget(repository: repository),
-        );
+      await tester.pumpWidget(createWidget(repository: repository));
 
-        expect(
-          find.byType(CircularProgressIndicator),
-          findsOneWidget,
-        );
+      expect(find.byType(CircularProgressIndicator), findsOneWidget);
 
-        await tester.pumpAndSettle();
-      },
-    );
+      await tester.pumpAndSettle();
+    });
 
-    testWidgets(
-      'affiche une actualité lorsque les données sont disponibles',
-      (tester) async {
-        final repository = FakeNewsRepository(
-          articles: const [article],
-        );
+    testWidgets('affiche une actualité lorsque les données sont disponibles', (
+      tester,
+    ) async {
+      final repository = FakeNewsRepository(articles: const [article]);
 
-        await tester.pumpWidget(
-          createWidget(repository: repository),
-        );
+      await tester.pumpWidget(createWidget(repository: repository));
 
-        await tester.pumpAndSettle();
+      await tester.pumpAndSettle();
 
-        expect(
-          find.text('Flutter et Firebase'),
-          findsOneWidget,
-        );
+      expect(find.text('Flutter et Firebase'), findsOneWidget);
 
-        expect(
-          find.text('Une actualité sur Flutter et Firebase.'),
-          findsOneWidget,
-        );
+      expect(
+        find.text('Une actualité sur Flutter et Firebase.'),
+        findsOneWidget,
+      );
 
-        expect(
-          find.text('Tech News'),
-          findsOneWidget,
-        );
+      expect(find.text('Tech News'), findsOneWidget);
 
-        expect(
-          find.text('Lire l’article'),
-          findsOneWidget,
-        );
-      },
-    );
+      expect(find.text('Lire l’article'), findsOneWidget);
+    });
 
     testWidgets(
       'affiche un message lorsque aucune actualité n est disponible',
       (tester) async {
-        final repository = FakeNewsRepository(
-          articles: const [],
-        );
+        final repository = FakeNewsRepository(articles: const []);
 
-        await tester.pumpWidget(
-          createWidget(repository: repository),
-        );
+        await tester.pumpWidget(createWidget(repository: repository));
 
         await tester.pumpAndSettle();
 
-        expect(
-          find.text('Aucune actualité disponible.'),
-          findsOneWidget,
-        );
+        expect(find.text('Aucune actualité disponible.'), findsOneWidget);
       },
     );
 
-    testWidgets(
-      'affiche le message d erreur lorsque le chargement échoue',
-      (tester) async {
-        final repository = FakeNewsRepository(
-          error: Exception('Erreur réseau'),
-        );
+    testWidgets('affiche le message d erreur lorsque le chargement échoue', (
+      tester,
+    ) async {
+      final repository = FakeNewsRepository(error: Exception('Erreur réseau'));
 
-        await tester.pumpWidget(
-          createWidget(repository: repository),
-        );
+      await tester.pumpWidget(createWidget(repository: repository));
 
-        await tester.pumpAndSettle();
+      await tester.pumpAndSettle();
 
-        expect(
-          find.text(
-            'Impossible de charger les actualités.',
-          ),
-          findsOneWidget,
-        );
+      expect(
+        find.text('Impossible de charger les actualités.'),
+        findsOneWidget,
+      );
 
-        expect(
-          find.text(
-            'Vérifiez votre connexion Internet puis réessayez.',
-          ),
-          findsOneWidget,
-        );
+      expect(
+        find.text('Vérifiez votre connexion Internet puis réessayez.'),
+        findsOneWidget,
+      );
 
-        expect(
-          find.widgetWithText(
-            FilledButton,
-            'Réessayer',
-          ),
-          findsOneWidget,
-        );
-      },
-    );
+      expect(find.widgetWithText(FilledButton, 'Réessayer'), findsOneWidget);
+    });
   });
 }

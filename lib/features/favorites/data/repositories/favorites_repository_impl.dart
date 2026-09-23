@@ -9,10 +9,7 @@ class FavoritesRepositoryImpl implements FavoritesRepository {
 
   @override
   List<Article> getFavorites() {
-    return _localDataSource
-        .getFavorites()
-        .map(_fromCachedArticle)
-        .toList();
+    return _localDataSource.getFavorites().map(_fromCachedArticle).toList();
   }
 
   @override

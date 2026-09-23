@@ -3,15 +3,13 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 class DioClient {
   DioClient({FirebaseAuth? firebaseAuth})
-      : _firebaseAuth = firebaseAuth ?? FirebaseAuth.instance {
+    : _firebaseAuth = firebaseAuth ?? FirebaseAuth.instance {
     _dio = Dio(
       BaseOptions(
         connectTimeout: const Duration(seconds: 10),
         receiveTimeout: const Duration(seconds: 10),
         sendTimeout: const Duration(seconds: 10),
-        headers: {
-          'Accept': 'application/json',
-        },
+        headers: {'Accept': 'application/json'},
       ),
     );
 

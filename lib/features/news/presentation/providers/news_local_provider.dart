@@ -7,8 +7,7 @@ final newsCacheBoxProvider = Provider<Box<dynamic>>((ref) {
   return Hive.box<dynamic>('news_cache');
 });
 
-final newsLocalDataSourceProvider =
-    Provider<NewsLocalDataSource>((ref) {
+final newsLocalDataSourceProvider = Provider<NewsLocalDataSource>((ref) {
   final box = ref.watch(newsCacheBoxProvider);
 
   return NewsLocalDataSource(box);

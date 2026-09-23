@@ -37,7 +37,9 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
 
     FocusScope.of(context).unfocus();
 
-    await ref.read(authControllerProvider.notifier).register(
+    await ref
+        .read(authControllerProvider.notifier)
+        .register(
           email: _emailController.text.trim(),
           password: _passwordController.text,
         );
@@ -52,22 +54,12 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
       final l10n = AppLocalizations.of(context)!;
 
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(
-            _getFirebaseErrorMessage(
-              state.error,
-              l10n,
-            ),
-          ),
-        ),
+        SnackBar(content: Text(_getFirebaseErrorMessage(state.error, l10n))),
       );
     }
   }
 
-  String _getFirebaseErrorMessage(
-    Object? error,
-    AppLocalizations l10n,
-  ) {
+  String _getFirebaseErrorMessage(Object? error, AppLocalizations l10n) {
     if (error is FirebaseAuthException) {
       switch (error.code) {
         case 'email-already-in-use':
@@ -109,20 +101,13 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  const Icon(
-                    Icons.person_add_alt_1_rounded,
-                    size: 72,
-                  ),
+                  const Icon(Icons.person_add_alt_1_rounded, size: 72),
                   const SizedBox(height: 24),
                   Text(
                     l10n.createAccount,
                     textAlign: TextAlign.center,
-                    style: Theme.of(context)
-                        .textTheme
-                        .headlineSmall
-                        ?.copyWith(
-                          fontWeight: FontWeight.bold,
-                        ),
+                    style: Theme.of(context).textTheme.headlineSmall
+                        ?.copyWith(fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(height: 8),
                   Text(
@@ -139,9 +124,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                     decoration: InputDecoration(
                       labelText: l10n.email,
                       hintText: l10n.emailHint,
-                      prefixIcon: const Icon(
-                        Icons.email_outlined,
-                      ),
+                      prefixIcon: const Icon(Icons.email_outlined),
                       border: const OutlineInputBorder(),
                     ),
                     validator: (value) {
@@ -164,9 +147,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                     enabled: !isLoading,
                     decoration: InputDecoration(
                       labelText: l10n.password,
-                      prefixIcon: const Icon(
-                        Icons.lock_outline,
-                      ),
+                      prefixIcon: const Icon(Icons.lock_outline),
                       border: const OutlineInputBorder(),
                       suffixIcon: Semantics(
                         button: true,
@@ -178,8 +159,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                               ? null
                               : () {
                                   setState(() {
-                                    _obscurePassword =
-                                        !_obscurePassword;
+                                    _obscurePassword = !_obscurePassword;
                                   });
                                 },
                           tooltip: _obscurePassword
@@ -214,9 +194,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                     onFieldSubmitted: (_) => _register(),
                     decoration: InputDecoration(
                       labelText: l10n.confirmPassword,
-                      prefixIcon: const Icon(
-                        Icons.lock_outline,
-                      ),
+                      prefixIcon: const Icon(Icons.lock_outline),
                       border: const OutlineInputBorder(),
                       suffixIcon: Semantics(
                         button: true,
@@ -276,9 +254,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                               )
                             : Text(
                                 l10n.createMyAccount,
-                                style: const TextStyle(
-                                  fontSize: 16,
-                                ),
+                                style: const TextStyle(fontSize: 16),
                               ),
                       ),
                     ),

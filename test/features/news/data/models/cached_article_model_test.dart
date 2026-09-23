@@ -51,20 +51,23 @@ void main() {
       expect(result.content, article.content);
     });
 
-    test('fromMap utilise des valeurs par défaut lorsque les données manquent', () {
-      final map = <String, dynamic>{};
+    test(
+      'fromMap utilise des valeurs par défaut lorsque les données manquent',
+      () {
+        final map = <String, dynamic>{};
 
-      final result = CachedArticleModel.fromMap(map);
+        final result = CachedArticleModel.fromMap(map);
 
-      expect(result.title, '');
-      expect(result.description, '');
-      expect(result.url, '');
-      expect(result.imageUrl, '');
-      expect(result.sourceName, '');
-      expect(result.publishedAt, isNull);
-      expect(result.author, '');
-      expect(result.content, '');
-    });
+        expect(result.title, '');
+        expect(result.description, '');
+        expect(result.url, '');
+        expect(result.imageUrl, '');
+        expect(result.sourceName, '');
+        expect(result.publishedAt, isNull);
+        expect(result.author, '');
+        expect(result.content, '');
+      },
+    );
 
     test('toMap conserve publishedAt à null', () {
       const articleWithoutDate = CachedArticleModel(

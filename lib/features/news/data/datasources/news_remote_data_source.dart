@@ -5,9 +5,7 @@ import '../../../../core/network/dio_client.dart';
 import '../models/article_model.dart';
 
 class NewsRemoteDataSource {
-  NewsRemoteDataSource({
-    required DioClient dioClient,
-  }) : _dio = dioClient.dio;
+  NewsRemoteDataSource({required DioClient dioClient}) : _dio = dioClient.dio;
 
   final Dio _dio;
 
@@ -15,14 +13,8 @@ class NewsRemoteDataSource {
     try {
       final response = await _dio.get(
         'https://newsapi.org/v2/top-headlines',
-        queryParameters: {
-          'country': 'us',
-        },
-        options: Options(
-          headers: {
-            'X-Api-Key': AppConfig.newsApiKey,
-          },
-        ),
+        queryParameters: {'country': 'us'},
+        options: Options(headers: {'X-Api-Key': AppConfig.newsApiKey}),
       );
 
       final data = response.data as Map<String, dynamic>;
@@ -35,9 +27,7 @@ class NewsRemoteDataSource {
     } on DioException {
       rethrow;
     } catch (_) {
-      throw Exception(
-        'Impossible de traiter les données des actualités.',
-      );
+      throw Exception('Impossible de traiter les données des actualités.');
     }
   }
 
@@ -50,11 +40,7 @@ class NewsRemoteDataSource {
           'language': 'fr',
           'sortBy': 'publishedAt',
         },
-        options: Options(
-          headers: {
-            'X-Api-Key': AppConfig.newsApiKey,
-          },
-        ),
+        options: Options(headers: {'X-Api-Key': AppConfig.newsApiKey}),
       );
 
       final data = response.data as Map<String, dynamic>;
@@ -67,9 +53,7 @@ class NewsRemoteDataSource {
     } on DioException {
       rethrow;
     } catch (_) {
-      throw Exception(
-        'Impossible de traiter les résultats de recherche.',
-      );
+      throw Exception('Impossible de traiter les résultats de recherche.');
     }
   }
 }

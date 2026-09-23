@@ -55,13 +55,9 @@ void main() {
   Widget createApp() {
     return ProviderScope(
       overrides: [
-        newsRepositoryProvider.overrideWithValue(
-          const FakeNewsRepository(),
-        ),
+        newsRepositoryProvider.overrideWithValue(const FakeNewsRepository()),
       ],
-      child: const MaterialApp(
-        home: MainScreen(),
-      ),
+      child: const MaterialApp(home: MainScreen()),
     );
   }
 
@@ -122,44 +118,25 @@ void main() {
 
         expect(searchField, findsOneWidget);
 
-        await tester.enterText(
-          searchField,
-          'Flutter',
-        );
+        await tester.enterText(searchField, 'Flutter');
 
-        await tester.testTextInput.receiveAction(
-          TextInputAction.search,
-        );
+        await tester.testTextInput.receiveAction(TextInputAction.search);
 
         await tester.pumpAndSettle();
 
         // Le faux repository retourne notre article de test.
-        expect(
-          find.text('Flutter et Firebase'),
-          findsOneWidget,
-        );
+        expect(find.text('Flutter et Firebase'), findsOneWidget);
 
-        expect(
-          find.text('Tech News'),
-          findsOneWidget,
-        );
+        expect(find.text('Tech News'), findsOneWidget);
 
         // Ouvre le détail de l'article.
-        await tester.tap(
-          find.text('Flutter et Firebase'),
-        );
+        await tester.tap(find.text('Flutter et Firebase'));
 
         await tester.pumpAndSettle();
 
-        expect(
-          find.text('Flutter et Firebase'),
-          findsOneWidget,
-        );
+        expect(find.text('Flutter et Firebase'), findsOneWidget);
 
-        expect(
-          find.text('Tech News'),
-          findsOneWidget,
-        );
+        expect(find.text('Tech News'), findsOneWidget);
       },
     );
   });

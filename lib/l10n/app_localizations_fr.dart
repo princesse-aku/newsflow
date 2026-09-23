@@ -1,5 +1,6 @@
 // ignore: unused_import
 import 'package:intl/intl.dart' as intl;
+
 import 'app_localizations.dart';
 
 // ignore_for_file: type=lint
@@ -51,7 +52,8 @@ class AppLocalizationsFr extends AppLocalizations {
   String get loadingError => 'Impossible de charger les actualités.';
 
   @override
-  String get checkConnection => 'Vérifiez votre connexion Internet puis réessayez.';
+  String get checkConnection =>
+      'Vérifiez votre connexion Internet puis réessayez.';
 
   @override
   String get searchError => 'Impossible d’effectuer la recherche.';
@@ -126,7 +128,8 @@ class AppLocalizationsFr extends AppLocalizations {
   String get enterPassword => 'Veuillez saisir votre mot de passe';
 
   @override
-  String get passwordTooShort => 'Le mot de passe doit contenir au moins 6 caractères';
+  String get passwordTooShort =>
+      'Le mot de passe doit contenir au moins 6 caractères';
 
   @override
   String get login => 'Se connecter';
@@ -156,7 +159,8 @@ class AppLocalizationsFr extends AppLocalizations {
   String get tooManyRequests => 'Trop de tentatives. Réessayez plus tard.';
 
   @override
-  String get networkError => 'Erreur réseau. Vérifiez votre connexion Internet.';
+  String get networkError =>
+      'Erreur réseau. Vérifiez votre connexion Internet.';
 
   @override
   String get genericAuthError => 'Une erreur est survenue. Veuillez réessayer.';
@@ -192,7 +196,8 @@ class AppLocalizationsFr extends AppLocalizations {
   String get noFavorites => 'Aucun favori';
 
   @override
-  String get addFavoritesToFindThemHere => 'Ajoutez des articles à vos favoris pour les retrouver ici.';
+  String get addFavoritesToFindThemHere =>
+      'Ajoutez des articles à vos favoris pour les retrouver ici.';
 
   @override
   String favoriteArticle(Object title) {
@@ -208,7 +213,8 @@ class AppLocalizationsFr extends AppLocalizations {
   String get clearFavoritesTitle => 'Supprimer les favoris ?';
 
   @override
-  String get clearFavoritesMessage => 'Tous vos articles favoris seront supprimés.';
+  String get clearFavoritesMessage =>
+      'Tous vos articles favoris seront supprimés.';
 
   @override
   String get cancel => 'Annuler';
@@ -228,7 +234,8 @@ class AppLocalizationsFr extends AppLocalizations {
   String get openSourceHint => 'Ouvre la source de l’article';
 
   @override
-  String get sourceOpeningSoon => 'L’ouverture de la source sera disponible prochainement.';
+  String get sourceOpeningSoon =>
+      'L’ouverture de la source sera disponible prochainement.';
 
   @override
   String get checkingAuthentication => 'Vérification de la connexion en cours';
@@ -237,5 +244,6 @@ class AppLocalizationsFr extends AppLocalizations {
   String get authenticationError => 'Erreur de connexion';
 
   @override
-  String get authenticationCheckFailed => 'Impossible de vérifier la connexion.';
+  String get authenticationCheckFailed =>
+      'Impossible de vérifier la connexion.';
 }

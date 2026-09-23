@@ -44,9 +44,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
     final l10n = AppLocalizations.of(context)!;
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(l10n.search),
-      ),
+      appBar: AppBar(title: Text(l10n.search)),
       body: Column(
         children: [
           Padding(
@@ -72,11 +70,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
               ),
             ),
           ),
-          Expanded(
-            child: _SearchResults(
-              query: _query,
-            ),
-          ),
+          Expanded(child: _SearchResults(query: _query)),
         ],
       ),
     );
@@ -84,9 +78,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
 }
 
 class _SearchResults extends ConsumerWidget {
-  const _SearchResults({
-    required this.query,
-  });
+  const _SearchResults({required this.query});
 
   final String query;
 
@@ -95,16 +87,10 @@ class _SearchResults extends ConsumerWidget {
     final l10n = AppLocalizations.of(context)!;
 
     if (query.isEmpty) {
-      return Center(
-        child: Text(
-          l10n.enterKeyword,
-        ),
-      );
+      return Center(child: Text(l10n.enterKeyword));
     }
 
-    final searchState = ref.watch(
-      searchNewsProvider(query),
-    );
+    final searchState = ref.watch(searchNewsProvider(query));
 
     return searchState.when(
       loading: () {
@@ -124,10 +110,7 @@ class _SearchResults extends ConsumerWidget {
               children: [
                 Semantics(
                   label: l10n.searchError,
-                  child: const Icon(
-                    Icons.error_outline,
-                    size: 56,
-                  ),
+                  child: const Icon(Icons.error_outline, size: 56),
                 ),
                 const SizedBox(height: 16),
                 Text(
@@ -139,19 +122,14 @@ class _SearchResults extends ConsumerWidget {
                   ),
                 ),
                 const SizedBox(height: 8),
-                Text(
-                  l10n.checkConnection,
-                  textAlign: TextAlign.center,
-                ),
+                Text(l10n.checkConnection, textAlign: TextAlign.center),
                 const SizedBox(height: 20),
                 Semantics(
                   button: true,
                   label: l10n.retry,
                   child: FilledButton.icon(
                     onPressed: () {
-                      ref.invalidate(
-                        searchNewsProvider(query),
-                      );
+                      ref.invalidate(searchNewsProvider(query));
                     },
                     icon: const Icon(Icons.refresh),
                     label: Text(l10n.retry),
@@ -164,20 +142,11 @@ class _SearchResults extends ConsumerWidget {
       },
       data: (articles) {
         if (articles.isEmpty) {
-          return Center(
-            child: Text(
-              l10n.noNewsFound,
-            ),
-          );
+          return Center(child: Text(l10n.noNewsFound));
         }
 
         return ListView.separated(
-          padding: const EdgeInsets.fromLTRB(
-            16,
-            0,
-            16,
-            16,
-          ),
+          padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
           itemCount: articles.length,
           separatorBuilder: (_, _) {
             return const SizedBox(height: 12);
@@ -185,9 +154,7 @@ class _SearchResults extends ConsumerWidget {
           itemBuilder: (context, index) {
             final article = articles[index];
 
-            return _SearchArticleCard(
-              article: article,
-            );
+            return _SearchArticleCard(article: article);
           },
         );
       },
@@ -196,9 +163,7 @@ class _SearchResults extends ConsumerWidget {
 }
 
 class _SearchArticleCard extends StatelessWidget {
-  const _SearchArticleCard({
-    required this.article,
-  });
+  const _SearchArticleCard({required this.article});
 
   final Article article;
 
@@ -216,9 +181,7 @@ class _SearchArticleCard extends StatelessWidget {
           onTap: () {
             Navigator.of(context).push(
               MaterialPageRoute(
-                builder: (_) => ArticleDetailScreen(
-                  article: article,
-                ),
+                builder: (_) => ArticleDetailScreen(article: article),
               ),
             );
           },
@@ -237,8 +200,7 @@ class _SearchArticleCard extends StatelessWidget {
                       borderRadius: 8,
                     ),
                   ),
-                if (article.imageUrl.isNotEmpty)
-                  const SizedBox(width: 12),
+                if (article.imageUrl.isNotEmpty) const SizedBox(width: 12),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -246,24 +208,16 @@ class _SearchArticleCard extends StatelessWidget {
                       if (article.sourceName.isNotEmpty)
                         Text(
                           article.sourceName,
-                          style: Theme.of(context)
-                              .textTheme
-                              .labelSmall
-                              ?.copyWith(
-                                fontWeight: FontWeight.bold,
-                              ),
+                          style: Theme.of(context).textTheme.labelSmall
+                              ?.copyWith(fontWeight: FontWeight.bold),
                         ),
                       const SizedBox(height: 6),
                       Text(
                         article.title,
                         maxLines: 3,
                         overflow: TextOverflow.ellipsis,
-                        style: Theme.of(context)
-                            .textTheme
-                            .titleSmall
-                            ?.copyWith(
-                              fontWeight: FontWeight.bold,
-                            ),
+                        style: Theme.of(context).textTheme.titleSmall
+                            ?.copyWith(fontWeight: FontWeight.bold),
                       ),
                     ],
                   ),

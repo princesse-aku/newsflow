@@ -35,7 +35,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
     FocusScope.of(context).unfocus();
 
-    await ref.read(authControllerProvider.notifier).login(
+    await ref
+        .read(authControllerProvider.notifier)
+        .login(
           email: _emailController.text.trim(),
           password: _passwordController.text,
         );
@@ -50,22 +52,12 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
       final l10n = AppLocalizations.of(context)!;
 
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(
-            _getFirebaseErrorMessage(
-              state.error,
-              l10n,
-            ),
-          ),
-        ),
+        SnackBar(content: Text(_getFirebaseErrorMessage(state.error, l10n))),
       );
     }
   }
 
-  String _getFirebaseErrorMessage(
-    Object? error,
-    AppLocalizations l10n,
-  ) {
+  String _getFirebaseErrorMessage(Object? error, AppLocalizations l10n) {
     if (error is FirebaseAuthException) {
       switch (error.code) {
         case 'invalid-credential':
@@ -109,20 +101,13 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  const Icon(
-                    Icons.newspaper_rounded,
-                    size: 72,
-                  ),
+                  const Icon(Icons.newspaper_rounded, size: 72),
                   const SizedBox(height: 24),
                   Text(
                     l10n.welcomeToNewsFlow,
                     textAlign: TextAlign.center,
-                    style: Theme.of(context)
-                        .textTheme
-                        .headlineSmall
-                        ?.copyWith(
-                          fontWeight: FontWeight.bold,
-                        ),
+                    style: Theme.of(context).textTheme.headlineSmall
+                        ?.copyWith(fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(height: 8),
                   Text(
@@ -139,9 +124,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     decoration: InputDecoration(
                       labelText: l10n.email,
                       hintText: l10n.emailHint,
-                      prefixIcon: const Icon(
-                        Icons.email_outlined,
-                      ),
+                      prefixIcon: const Icon(Icons.email_outlined),
                       border: const OutlineInputBorder(),
                     ),
                     validator: (value) {
@@ -165,9 +148,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     onFieldSubmitted: (_) => _login(),
                     decoration: InputDecoration(
                       labelText: l10n.password,
-                      prefixIcon: const Icon(
-                        Icons.lock_outline,
-                      ),
+                      prefixIcon: const Icon(Icons.lock_outline),
                       border: const OutlineInputBorder(),
                       suffixIcon: Semantics(
                         button: true,
@@ -179,8 +160,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                               ? null
                               : () {
                                   setState(() {
-                                    _obscurePassword =
-                                        !_obscurePassword;
+                                    _obscurePassword = !_obscurePassword;
                                   });
                                 },
                           tooltip: _obscurePassword
@@ -227,9 +207,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                               )
                             : Text(
                                 l10n.login,
-                                style: const TextStyle(
-                                  fontSize: 16,
-                                ),
+                                style: const TextStyle(fontSize: 16),
                               ),
                       ),
                     ),
@@ -244,8 +222,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                           : () {
                               Navigator.of(context).push(
                                 MaterialPageRoute(
-                                  builder: (_) =>
-                                      const RegisterScreen(),
+                                  builder: (_) => const RegisterScreen(),
                                 ),
                               );
                             },

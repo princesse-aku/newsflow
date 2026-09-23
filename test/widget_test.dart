@@ -5,11 +5,7 @@ import 'package:newsflow/main.dart';
 
 void main() {
   testWidgets('NewsFlow démarre correctement', (WidgetTester tester) async {
-    await tester.pumpWidget(
-      const ProviderScope(
-        child: NewsFlowApp(),
-      ),
-    );
+    await tester.pumpWidget(const ProviderScope(child: NewsFlowApp()));
 
     await tester.pump();
 

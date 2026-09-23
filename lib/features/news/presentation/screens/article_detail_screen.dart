@@ -5,10 +5,7 @@ import '../../../../l10n/app_localizations.dart';
 import '../../domain/entities/article.dart';
 
 class ArticleDetailScreen extends StatelessWidget {
-  const ArticleDetailScreen({
-    required this.article,
-    super.key,
-  });
+  const ArticleDetailScreen({required this.article, super.key});
 
   final Article article;
 
@@ -17,9 +14,7 @@ class ArticleDetailScreen extends StatelessWidget {
     final l10n = AppLocalizations.of(context)!;
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(l10n.readArticle),
-      ),
+      appBar: AppBar(title: Text(l10n.readArticle)),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -42,35 +37,22 @@ class ArticleDetailScreen extends StatelessWidget {
                   if (article.sourceName.isNotEmpty)
                     Text(
                       article.sourceName,
-                      style: Theme.of(context)
-                          .textTheme
-                          .labelLarge
-                          ?.copyWith(
-                            fontWeight: FontWeight.bold,
-                          ),
+                      style: Theme.of(context).textTheme.labelLarge
+                          ?.copyWith(fontWeight: FontWeight.bold),
                     ),
                   const SizedBox(height: 12),
                   Text(
                     article.title,
-                    style: Theme.of(context)
-                        .textTheme
-                        .headlineSmall
-                        ?.copyWith(
-                          fontWeight: FontWeight.bold,
-                        ),
+                    style: Theme.of(context).textTheme.headlineSmall
+                        ?.copyWith(fontWeight: FontWeight.bold),
                   ),
                   if (article.publishedAt != null) ...[
                     const SizedBox(height: 12),
                     Row(
                       children: [
-                        const Icon(
-                          Icons.calendar_today_outlined,
-                          size: 16,
-                        ),
+                        const Icon(Icons.calendar_today_outlined, size: 16),
                         const SizedBox(width: 8),
-                        Text(
-                          _formatDate(article.publishedAt!),
-                        ),
+                        Text(_formatDate(article.publishedAt!)),
                       ],
                     ),
                   ],
@@ -78,16 +60,9 @@ class ArticleDetailScreen extends StatelessWidget {
                     const SizedBox(height: 8),
                     Row(
                       children: [
-                        const Icon(
-                          Icons.person_outline,
-                          size: 16,
-                        ),
+                        const Icon(Icons.person_outline, size: 16),
                         const SizedBox(width: 8),
-                        Expanded(
-                          child: Text(
-                            article.author,
-                          ),
-                        ),
+                        Expanded(child: Text(article.author)),
                       ],
                     ),
                   ],
@@ -95,12 +70,8 @@ class ArticleDetailScreen extends StatelessWidget {
                   if (article.description.isNotEmpty) ...[
                     Text(
                       article.description,
-                      style: Theme.of(context)
-                          .textTheme
-                          .titleMedium
-                          ?.copyWith(
-                            fontWeight: FontWeight.w600,
-                          ),
+                      style: Theme.of(context).textTheme.titleMedium
+                          ?.copyWith(fontWeight: FontWeight.w600),
                     ),
                     const SizedBox(height: 20),
                   ],
@@ -141,16 +112,8 @@ class ArticleDetailScreen extends StatelessWidget {
     return '$day/$month/$year';
   }
 
-  void _showSourceMessage(
-    BuildContext context,
-    AppLocalizations l10n,
-  ) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(
-          l10n.sourceOpeningSoon,
-        ),
-      ),
-    );
+  void _showSourceMessage(BuildContext context, AppLocalizations l10n) {
+    ScaffoldMessenger.of(context)
+        .showSnackBar(SnackBar(content: Text(l10n.sourceOpeningSoon)));
+  }
 }
-}                          

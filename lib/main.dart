@@ -10,19 +10,13 @@ import 'firebase_options.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
   await Hive.initFlutter();
 
   await Hive.openBox<dynamic>('news_cache');
 
-  runApp(
-    const ProviderScope(
-      child: NewsFlowApp(),
-    ),
-  );
+  runApp(const ProviderScope(child: NewsFlowApp()));
 }
 
 class NewsFlowApp extends StatelessWidget {
@@ -38,10 +32,7 @@ class NewsFlowApp extends StatelessWidget {
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
       ],
-      supportedLocales: const [
-        Locale('fr'),
-        Locale('en'),
-      ],
+      supportedLocales: const [Locale('fr'), Locale('en')],
       localeResolutionCallback: (locale, supportedLocales) {
         for (final supportedLocale in supportedLocales) {
           if (supportedLocale.languageCode == locale?.languageCode) {
@@ -51,10 +42,7 @@ class NewsFlowApp extends StatelessWidget {
 
         return const Locale('fr');
       },
-      theme: ThemeData(
-        useMaterial3: true,
-        colorSchemeSeed: Colors.blue,
-      ),
+      theme: ThemeData(useMaterial3: true, colorSchemeSeed: Colors.blue),
       home: const AuthGate(),
     );
   }

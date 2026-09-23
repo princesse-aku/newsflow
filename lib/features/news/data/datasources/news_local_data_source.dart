@@ -8,12 +8,8 @@ class NewsLocalDataSource {
 
   static const String articlesKey = 'cached_articles';
 
-  Future<void> cacheArticles(
-    List<CachedArticleModel> articles,
-  ) async {
-    final articlesData = articles
-        .map((article) => article.toMap())
-        .toList();
+  Future<void> cacheArticles(List<CachedArticleModel> articles) async {
+    final articlesData = articles.map((article) => article.toMap()).toList();
 
     await _box.put(articlesKey, articlesData);
   }
@@ -27,9 +23,7 @@ class NewsLocalDataSource {
 
     return cachedData
         .whereType<Map>()
-        .map(
-          (article) => CachedArticleModel.fromMap(article),
-        )
+        .map((article) => CachedArticleModel.fromMap(article))
         .toList();
   }
 
