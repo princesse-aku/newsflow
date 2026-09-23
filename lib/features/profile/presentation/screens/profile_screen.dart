@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../../l10n/app_localizations.dart';
 import '../../../auth/presentation/providers/auth_provider.dart';
 
 class ProfileScreen extends ConsumerWidget {
@@ -9,16 +10,17 @@ class ProfileScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context)!;
     final user = FirebaseAuth.instance.currentUser;
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Mon profil'),
+        title: Text(l10n.profile),
       ),
       body: user == null
-          ? const Center(
+          ? Center(
               child: Text(
-                'Aucun utilisateur connecté.',
+                l10n.noUserConnected,
               ),
             )
           : ListView(
@@ -33,7 +35,7 @@ class ProfileScreen extends ConsumerWidget {
                 ),
                 const SizedBox(height: 24),
                 Text(
-                  'Mon compte',
+                  l10n.myAccount,
                   textAlign: TextAlign.center,
                   style: Theme.of(context)
                       .textTheme
@@ -44,7 +46,7 @@ class ProfileScreen extends ConsumerWidget {
                 ),
                 const SizedBox(height: 8),
                 Text(
-                  user.email ?? 'Email non disponible',
+                  user.email ?? l10n.emailNotAvailable,
                   textAlign: TextAlign.center,
                   style: Theme.of(context).textTheme.bodyLarge,
                 ),
@@ -52,31 +54,37 @@ class ProfileScreen extends ConsumerWidget {
                 Card(
                   child: ListTile(
                     leading: const Icon(Icons.email_outlined),
-                    title: const Text('Adresse email'),
+                    title: Text(l10n.emailAddress),
                     subtitle: Text(
-                      user.email ?? 'Non disponible',
+                      user.email ?? l10n.notAvailable,
                     ),
                   ),
                 ),
                 const SizedBox(height: 12),
                 Card(
                   child: ListTile(
-                    leading: const Icon(Icons.verified_user_outlined),
-                    title: const Text('Statut'),
-                    subtitle: const Text(
-                      'Compte connecté',
+                    leading: const Icon(
+                      Icons.verified_user_outlined,
+                    ),
+                    title: Text(l10n.status),
+                    subtitle: Text(
+                      l10n.accountConnected,
                     ),
                   ),
                 ),
                 const SizedBox(height: 32),
-                FilledButton.icon(
-                  onPressed: () async {
-                    await ref
-                        .read(authControllerProvider.notifier)
-                        .logout();
-                  },
-                  icon: const Icon(Icons.logout),
-                  label: const Text('Se déconnecter'),
+                Semantics(
+                  button: true,
+                  label: l10n.logout,
+                  child: FilledButton.icon(
+                    onPressed: () async {
+                      await ref
+                          .read(authControllerProvider.notifier)
+                          .logout();
+                    },
+                    icon: const Icon(Icons.logout),
+                    label: Text(l10n.logout),
+                  ),
                 ),
               ],
             ),

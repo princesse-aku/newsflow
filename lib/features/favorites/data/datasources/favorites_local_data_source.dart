@@ -3,10 +3,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import '../../../news/data/models/cached_article_model.dart';
 
 class FavoritesLocalDataSource {
-  FavoritesLocalDataSource({
-    required Box<dynamic> box,
-  }) : _box = box;
-
+  FavoritesLocalDataSource(this._box);
   final Box<dynamic> _box;
 
   static const String favoritesKey = 'favorite_articles';

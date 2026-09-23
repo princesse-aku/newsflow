@@ -18,7 +18,7 @@ final newsRemoteDataSourceProvider = Provider<NewsRemoteDataSource>((ref) {
 
 final newsRepositoryProvider = Provider<NewsRepository>((ref) {
   return NewsRepositoryImpl(
-    remoteDataSource: ref.watch(newsRemoteDataSourceProvider),
-    localDataSource: ref.watch(newsLocalDataSourceProvider),
+    ref.watch(newsRemoteDataSourceProvider),
+    ref.watch(newsLocalDataSourceProvider),
   );
 });

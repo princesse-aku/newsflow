@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../../l10n/app_localizations.dart';
 import '../providers/auth_provider.dart';
 
 class RegisterScreen extends ConsumerStatefulWidget {
@@ -48,42 +49,53 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
     final state = ref.read(authControllerProvider);
 
     if (state.hasError) {
+      final l10n = AppLocalizations.of(context)!;
+
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text(_getFirebaseErrorMessage(state.error)),
+          content: Text(
+            _getFirebaseErrorMessage(
+              state.error,
+              l10n,
+            ),
+          ),
         ),
       );
     }
   }
 
-  String _getFirebaseErrorMessage(Object? error) {
+  String _getFirebaseErrorMessage(
+    Object? error,
+    AppLocalizations l10n,
+  ) {
     if (error is FirebaseAuthException) {
       switch (error.code) {
         case 'email-already-in-use':
-          return 'Cette adresse email est déjà utilisée.';
+          return l10n.emailAlreadyInUse;
 
         case 'invalid-email':
-          return 'Veuillez saisir une adresse email valide.';
+          return l10n.invalidEmail;
 
         case 'weak-password':
-          return 'Le mot de passe est trop faible.';
+          return l10n.weakPassword;
 
         case 'network-request-failed':
-          return 'Erreur réseau. Vérifiez votre connexion Internet.';
+          return l10n.networkError;
 
         case 'too-many-requests':
-          return 'Trop de tentatives. Réessayez plus tard.';
+          return l10n.tooManyRequests;
 
         default:
-          return 'Une erreur est survenue. Veuillez réessayer.';
+          return l10n.genericAuthError;
       }
     }
 
-    return 'Une erreur est survenue. Veuillez réessayer.';
+    return l10n.genericAuthError;
   }
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final authState = ref.watch(authControllerProvider);
     final isLoading = authState.isLoading;
 
@@ -103,15 +115,18 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                   ),
                   const SizedBox(height: 24),
                   Text(
-                    'Créer un compte',
+                    l10n.createAccount,
                     textAlign: TextAlign.center,
-                    style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                    style: Theme.of(context)
+                        .textTheme
+                        .headlineSmall
+                        ?.copyWith(
                           fontWeight: FontWeight.bold,
                         ),
                   ),
                   const SizedBox(height: 8),
                   Text(
-                    'Rejoignez NewsFlow',
+                    l10n.joinNewsFlow,
                     textAlign: TextAlign.center,
                     style: Theme.of(context).textTheme.bodyMedium,
                   ),
@@ -121,19 +136,21 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                     keyboardType: TextInputType.emailAddress,
                     textInputAction: TextInputAction.next,
                     enabled: !isLoading,
-                    decoration: const InputDecoration(
-                      labelText: 'Email',
-                      hintText: 'exemple@email.com',
-                      prefixIcon: Icon(Icons.email_outlined),
-                      border: OutlineInputBorder(),
+                    decoration: InputDecoration(
+                      labelText: l10n.email,
+                      hintText: l10n.emailHint,
+                      prefixIcon: const Icon(
+                        Icons.email_outlined,
+                      ),
+                      border: const OutlineInputBorder(),
                     ),
                     validator: (value) {
                       if (value == null || value.trim().isEmpty) {
-                        return 'Veuillez saisir votre email';
+                        return l10n.enterEmail;
                       }
 
                       if (!value.contains('@')) {
-                        return 'Veuillez saisir un email valide';
+                        return l10n.enterValidEmail;
                       }
 
                       return null;
@@ -146,31 +163,43 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                     textInputAction: TextInputAction.next,
                     enabled: !isLoading,
                     decoration: InputDecoration(
-                      labelText: 'Mot de passe',
-                      prefixIcon: const Icon(Icons.lock_outline),
+                      labelText: l10n.password,
+                      prefixIcon: const Icon(
+                        Icons.lock_outline,
+                      ),
                       border: const OutlineInputBorder(),
-                      suffixIcon: IconButton(
-                        onPressed: isLoading
-                            ? null
-                            : () {
-                                setState(() {
-                                  _obscurePassword = !_obscurePassword;
-                                });
-                              },
-                        icon: Icon(
-                          _obscurePassword
-                              ? Icons.visibility_outlined
-                              : Icons.visibility_off_outlined,
+                      suffixIcon: Semantics(
+                        button: true,
+                        label: _obscurePassword
+                            ? l10n.showPassword
+                            : l10n.hidePassword,
+                        child: IconButton(
+                          onPressed: isLoading
+                              ? null
+                              : () {
+                                  setState(() {
+                                    _obscurePassword =
+                                        !_obscurePassword;
+                                  });
+                                },
+                          tooltip: _obscurePassword
+                              ? l10n.showPassword
+                              : l10n.hidePassword,
+                          icon: Icon(
+                            _obscurePassword
+                                ? Icons.visibility_outlined
+                                : Icons.visibility_off_outlined,
+                          ),
                         ),
                       ),
                     ),
                     validator: (value) {
                       if (value == null || value.isEmpty) {
-                        return 'Veuillez saisir votre mot de passe';
+                        return l10n.enterPassword;
                       }
 
                       if (value.length < 6) {
-                        return 'Le mot de passe doit contenir au moins 6 caractères';
+                        return l10n.passwordTooShort;
                       }
 
                       return null;
@@ -184,32 +213,43 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                     enabled: !isLoading,
                     onFieldSubmitted: (_) => _register(),
                     decoration: InputDecoration(
-                      labelText: 'Confirmer le mot de passe',
-                      prefixIcon: const Icon(Icons.lock_outline),
+                      labelText: l10n.confirmPassword,
+                      prefixIcon: const Icon(
+                        Icons.lock_outline,
+                      ),
                       border: const OutlineInputBorder(),
-                      suffixIcon: IconButton(
-                        onPressed: isLoading
-                            ? null
-                            : () {
-                                setState(() {
-                                  _obscureConfirmPassword =
-                                      !_obscureConfirmPassword;
-                                });
-                              },
-                        icon: Icon(
-                          _obscureConfirmPassword
-                              ? Icons.visibility_outlined
-                              : Icons.visibility_off_outlined,
+                      suffixIcon: Semantics(
+                        button: true,
+                        label: _obscureConfirmPassword
+                            ? l10n.showPassword
+                            : l10n.hidePassword,
+                        child: IconButton(
+                          onPressed: isLoading
+                              ? null
+                              : () {
+                                  setState(() {
+                                    _obscureConfirmPassword =
+                                        !_obscureConfirmPassword;
+                                  });
+                                },
+                          tooltip: _obscureConfirmPassword
+                              ? l10n.showPassword
+                              : l10n.hidePassword,
+                          icon: Icon(
+                            _obscureConfirmPassword
+                                ? Icons.visibility_outlined
+                                : Icons.visibility_off_outlined,
+                          ),
                         ),
                       ),
                     ),
                     validator: (value) {
                       if (value == null || value.isEmpty) {
-                        return 'Veuillez confirmer votre mot de passe';
+                        return l10n.confirmPasswordRequired;
                       }
 
                       if (value != _passwordController.text) {
-                        return 'Les mots de passe ne correspondent pas';
+                        return l10n.passwordsDoNotMatch;
                       }
 
                       return null;
@@ -218,30 +258,43 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                   const SizedBox(height: 24),
                   SizedBox(
                     height: 52,
-                    child: FilledButton(
-                      onPressed: isLoading ? null : _register,
-                      child: isLoading
-                          ? const SizedBox(
-                              width: 24,
-                              height: 24,
-                              child: CircularProgressIndicator(
-                                strokeWidth: 2,
+                    child: Semantics(
+                      button: true,
+                      label: l10n.createMyAccount,
+                      child: FilledButton(
+                        onPressed: isLoading ? null : _register,
+                        child: isLoading
+                            ? Semantics(
+                                label: l10n.loading,
+                                child: const SizedBox(
+                                  width: 24,
+                                  height: 24,
+                                  child: CircularProgressIndicator(
+                                    strokeWidth: 2,
+                                  ),
+                                ),
+                              )
+                            : Text(
+                                l10n.createMyAccount,
+                                style: const TextStyle(
+                                  fontSize: 16,
+                                ),
                               ),
-                            )
-                          : const Text(
-                              'Créer mon compte',
-                              style: TextStyle(fontSize: 16),
-                            ),
+                      ),
                     ),
                   ),
                   const SizedBox(height: 16),
-                  TextButton(
-                    onPressed: isLoading
-                        ? null
-                        : () {
-                            Navigator.of(context).pop();
-                          },
-                    child: const Text('J’ai déjà un compte'),
+                  Semantics(
+                    button: true,
+                    label: l10n.alreadyHaveAccount,
+                    child: TextButton(
+                      onPressed: isLoading
+                          ? null
+                          : () {
+                              Navigator.of(context).pop();
+                            },
+                      child: Text(l10n.alreadyHaveAccount),
+                    ),
                   ),
                 ],
               ),

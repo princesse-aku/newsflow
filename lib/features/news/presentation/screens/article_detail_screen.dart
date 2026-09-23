@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../../../core/widgets/optimized_network_image.dart';
+import '../../../../l10n/app_localizations.dart';
 import '../../domain/entities/article.dart';
 
 class ArticleDetailScreen extends StatelessWidget {
@@ -12,35 +14,25 @@ class ArticleDetailScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Article'),
+        title: Text(l10n.readArticle),
       ),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             if (article.imageUrl.isNotEmpty)
-              Image.network(
-                article.imageUrl,
-                width: double.infinity,
-                height: 240,
-                fit: BoxFit.cover,
-                errorBuilder: (
-                  context,
-                  error,
-                  stackTrace,
-                ) {
-                  return const SizedBox(
-                    height: 240,
-                    child: Center(
-                      child: Icon(
-                        Icons.image_not_supported_outlined,
-                        size: 56,
-                      ),
-                    ),
-                  );
-                },
+              Semantics(
+                excludeSemantics: true,
+                child: OptimizedNetworkImage(
+                  imageUrl: article.imageUrl,
+                  width: double.infinity,
+                  height: 240,
+                  fit: BoxFit.cover,
+                ),
               ),
             Padding(
               padding: const EdgeInsets.all(20),
@@ -119,12 +111,17 @@ class ArticleDetailScreen extends StatelessWidget {
                     ),
                   if (article.url.isNotEmpty) ...[
                     const SizedBox(height: 24),
-                    OutlinedButton.icon(
-                      onPressed: () {
-                        _showSourceMessage(context);
-                      },
-                      icon: const Icon(Icons.open_in_new),
-                      label: const Text('Voir la source'),
+                    Semantics(
+                      button: true,
+                      label: l10n.openSource,
+                      hint: l10n.openSourceHint,
+                      child: OutlinedButton.icon(
+                        onPressed: () {
+                          _showSourceMessage(context, l10n);
+                        },
+                        icon: const Icon(Icons.open_in_new),
+                        label: Text(l10n.openSource),
+                      ),
                     ),
                   ],
                 ],
@@ -144,13 +141,16 @@ class ArticleDetailScreen extends StatelessWidget {
     return '$day/$month/$year';
   }
 
-  void _showSourceMessage(BuildContext context) {
+  void _showSourceMessage(
+    BuildContext context,
+    AppLocalizations l10n,
+  ) {
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
+      SnackBar(
         content: Text(
-          'La source sera ouverte dans une prochaine étape.',
+          l10n.sourceOpeningSoon,
         ),
       ),
     );
-  }
 }
+}                          

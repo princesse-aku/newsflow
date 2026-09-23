@@ -8,11 +8,10 @@ import '../models/article_model.dart';
 import '../models/cached_article_model.dart';
 
 class NewsRepositoryImpl implements NewsRepository {
-  NewsRepositoryImpl({
-    required NewsRemoteDataSource remoteDataSource,
-    required NewsLocalDataSource localDataSource,
-  })  : _remoteDataSource = remoteDataSource,
-        _localDataSource = localDataSource;
+  NewsRepositoryImpl(
+    this._remoteDataSource,
+    this._localDataSource,
+  );
 
   final NewsRemoteDataSource _remoteDataSource;
   final NewsLocalDataSource _localDataSource;

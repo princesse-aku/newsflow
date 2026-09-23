@@ -4,10 +4,7 @@ import '../../domain/repositories/favorites_repository.dart';
 import '../datasources/favorites_local_data_source.dart';
 
 class FavoritesRepositoryImpl implements FavoritesRepository {
-  FavoritesRepositoryImpl({
-    required FavoritesLocalDataSource localDataSource,
-  }) : _localDataSource = localDataSource;
-
+  FavoritesRepositoryImpl(this._localDataSource);
   final FavoritesLocalDataSource _localDataSource;
 
   @override

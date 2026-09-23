@@ -3,10 +3,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import '../models/cached_article_model.dart';
 
 class NewsLocalDataSource {
-  NewsLocalDataSource({
-    required Box<dynamic> box,
-  }) : _box = box;
-
+  NewsLocalDataSource(this._box);
   final Box<dynamic> _box;
 
   static const String articlesKey = 'cached_articles';

@@ -11,7 +11,5 @@ final newsLocalDataSourceProvider =
     Provider<NewsLocalDataSource>((ref) {
   final box = ref.watch(newsCacheBoxProvider);
 
-  return NewsLocalDataSource(
-    box: box,
-  );
+  return NewsLocalDataSource(box);
 });

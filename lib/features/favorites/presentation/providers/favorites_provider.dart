@@ -10,16 +10,12 @@ final favoritesLocalDataSourceProvider =
     Provider<FavoritesLocalDataSource>((ref) {
   final box = Hive.box<dynamic>('news_cache');
 
-  return FavoritesLocalDataSource(
-    box: box,
-  );
+  return FavoritesLocalDataSource(box);
 });
 
 final favoritesRepositoryProvider = Provider<FavoritesRepository>((ref) {
   return FavoritesRepositoryImpl(
-    localDataSource: ref.watch(
-      favoritesLocalDataSourceProvider,
-    ),
+    ref.watch(favoritesLocalDataSourceProvider),
   );
 });
 
